@@ -28,7 +28,7 @@ IsA evan slime.
 # Which monster types are rivals. Symmetric predicate, so adding both directions.
 # If there were lots of rival monster types, would want to handle this the same way as Dating,
 # using a helper predicate.
-# Add any additional monster types you'd like. 
+# Add any additional monster types you'd like.
 RivalMonsterTypes vampire werewolf.
 RivalMonsterTypes werewolf vampire.
 
@@ -59,8 +59,8 @@ PreferredPronoun cameron he.
 PreferredPronoun amber she.
 PreferredPronoun jacob he.
 
-# Fluents must be initialized by asserting them in task using now. 
-# Fill in as you would like. 
+# Fluents must be initialized by asserting them in task using now.
+# Fill in as you would like.
 InitializeFluents:
 # MutualRelationship
     [now [CrushOn cameron jayden]]
