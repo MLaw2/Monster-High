@@ -1,6 +1,8 @@
-# REMEMBER TO DO THIS BEFORE EVERY EXECUTE
-#[EnvironmentOption retainState]
-#[InitializeFluents]
+[main]
+Startup:
+    [EnvironmentOption retainState]
+    [initializeFluents]
+[end]
 
 [main]
 predicate UnrequitedLove ?crusher ?crushee.
