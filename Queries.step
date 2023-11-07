@@ -1,7 +1,14 @@
+# REMEMBER TO DO THIS BEFORE EVERY EXECUTE
+#[EnvironmentOption retainState]
+#[InitializeFluents]
+
 [main]
 predicate UnrequitedLove ?crusher ?crushee.
 # Crusher has an unrequired crush on crushee.
-UnrequitedLove ?crusher ?crushee: [CrushOn ?crusher ?crushee]
+UnrequitedLove ?crusher ?crushee:
+    [CrushOn ?crusher ?crushee]
+    [Not [CrushOn ?crushee ?crusher]]
+[end]
 
 [main]
 predicate MutualAttraction ?a ?b.
@@ -20,10 +27,8 @@ Student ?who: [IsA ?who ?a]
 predicate SameClub ?a ?b.
 # A and B are in the same club.
 # Write a rule for SameClub here
-SameClub ?a ?b: [InClub ?a ?club] [InClub ?b ?club]
+SameClub ?a ?b: [InClub ?a ?club] [InClub ?b ?club] [Not [= ?a ?b]]
 
-# WHAT
-# HOW DOES THIS WORK
 [main]
 predicate LoveTriangle ?a ?b ?c.
 # A and B both have crushes on C
@@ -31,15 +36,17 @@ predicate LoveTriangle ?a ?b ?c.
 LoveTriangle ?a ?b ?c:
     [CrushOn ?a ?c]
     [CrushOn ?b ?c]
+    [Not [= ?a ?b]]
 [end]
 
 [main]
 predicate LovelessRelationship ?a ?b.
 # A and B are dating but not actually into each other
 # Write a rule here
+LovelessRelationship ?a ?b: [DatingHelper ?a ?b]
 LovelessRelationship ?a ?b:
-    [DatingHelper ?a ?b]
-    [DatingHelper ?b ?a]
+    [Dating ?a ?b]
+    [Dating ?b ?a]
     [Not [CrushOn ?a ?b]]
     [Not [CrushOn ?b ?a]]
 [end]
@@ -49,9 +56,10 @@ predicate CheatingOn ?cheater ?cheatee.
 # Cheater and cheatee are dating, but cheater is also dating someone else
 # Write a rule here
 CheatingOn ?cheater ?cheatee:
-    [DatingHelper ?cheater ?cheatee]
-    [DatingHelper ?cheatee ?cheater]
-    [DatingHelper ?cheater ?other]
+    [Dating ?cheater ?cheatee]
+    [Dating ?cheatee ?cheater]
+    [Dating ?cheater ?other]
+    [Not [= ?cheatee ?other]]
 [end]
 
 [main]
@@ -59,9 +67,10 @@ predicate CheatingOnWith ?cheater ?cheatee ?other.
 # Cheater and cheatee are dating, but cheater is also dating other
 # Write a rule here
 CheatingOnWith ?cheater ?cheatee ?other:
-    [DatingHelper ?cheater ?cheatee]
-    [DatingHelper ?cheatee ?cheater]
-    [DatingHelper ?cheater ?other]
+    [Dating ?cheater ?cheatee]
+    [Dating ?cheatee ?cheater]
+    [Dating ?cheater ?other]
+    [Not [= ?cheatee ?other]]
 [end]
 
 [main]
@@ -75,6 +84,5 @@ StarCrossedLovers ?charA ?charAType ?charB ?charBType:
     [IsA ?charB ?charBType]
     [RivalMonsterTypes ?charAType ?charBType]
     [MutualAttraction ?charA ?charB]
-    [Not [DatingHelper ?charA ?charB]]
-    [Not [DatingHelper ?charB ?charA]]
+    [Not [Dating ?charA ?charB]]
 [end]

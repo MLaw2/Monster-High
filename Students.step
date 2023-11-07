@@ -62,10 +62,12 @@ PreferredPronoun jacob he.
 # Fluents must be initialized by asserting them in task using now. 
 # Fill in as you would like. 
 InitializeFluents:
+# MutualRelationship
     [now [CrushOn cameron jayden]]
     [now [CrushOn jayden cameron]]
     [now [DatingHelper jayden cameron]]
 
+# Love Triangle cameron tiana jayden
     [now [CrushOn tiana jayden]]
     [now [CrushOn jayden tiana]]
 
@@ -73,14 +75,26 @@ InitializeFluents:
     [now [CrushOn hailey cameron]]
     [now [DatingHelper hailey cameron]]
 
+# UnrequtiedLove
     [now [CrushOn jayden david]]
 
+# Love Triangle hailey aniyah jada
     [now [CrushOn aniyah jada]]
     [now [DatingHelper aniyah jada]]
 
     [now [FriendHelper aniyah jayden]]
 
 # SELF CREATED
+#UnrequitedLove
     [now [CrushOn amber jacob]]
-[end]
 
+#LovelessRelationship
+    [now [DatingHelper amanda jacob]]
+    [now [DatingHelper jacob amanda]]
+
+# Cheating
+    [now [DatingHelper george hailey]]
+    [now [DatingHelper hailey george]]
+    [now [DatingHelper george amanda]]
+
+[end]
