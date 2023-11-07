@@ -1,0 +1,83 @@
+# Define hotkeys for viewing plot points. 
+HotKey m "Show plot point menu" [ShowPlotPointMenu].
+HotKey e "Show six random events" [Events].
+
+# Entry point for execute 6 random events
+[main]
+Events: [InitializeFluents] [Event] [Event] [Event] [Event] [Event] [Event]
+
+# Entry point for executing a single random event
+[main]
+SingleEvent: [InitializeFluents] [Event]
+
+Event: [NewLine] [ClearContext] [SelectAndExecute] [Paragraph]
+
+# SelectAndExecute
+# Select a random plot point available in the current state and execute it. 
+SelectAndExecute:
+    [FindUnique ?e [PlotPoint ?e] ?eventList] 
+    [RandomElement ?eventList ?event]
+    [PlotPoint ?event] 
+    [ExecutePlotPoint ?event]
+
+[end]
+
+# ExecuteSelectedPlotPoint
+# Given a plot point, execute it, and show the plot point menu for the new state.
+ExecuteSelectedPlotPoint ?plotPoint:
+    [ClearContext]
+    [ExecutePlotPoint ?plotPoint]
+    [Paragraph]
+    [WritePlotPointMenu]
+[end]
+
+# WritePlotPoint
+# Given a plot point, write it as a link. If the link is clicked, runs the task
+# ExecuteSelectedPlotPoint. 
+WritePlotPoint ?plotPoint:
+    [Link [ExecuteSelectedPlotPoint ?plotPoint]]
+    [Write ?plotPoint]
+    [EndLink]
+    [NewLine]
+[end]
+
+
+# ShowPlotPointMenu
+# Entry point for interactively selecting and executing available plot points.
+# Resets the state to the initial story state, and writes the plot point menu. 
+[main]
+ShowPlotPointMenu:
+    [EnvironmentOption discardState]
+    [EnvironmentOption retainState]
+    [InitializeFluents]
+    [WritePlotPointMenu]
+[end]
+
+# WritePlotPointMenu
+# For each of the plot points applicable in the current story state, adds them to a menu.
+[main]
+WritePlotPointMenu: 
+    [ForEach [PlotPoint ?event] [WritePlotPoint ?event]]
+[end] 
+
+###
+### What you need to write
+###
+
+[main]
+[randomly]
+predicate PlotPoint ?event.
+# ?event is a possible plot point in a Monster High episode given
+# the characters and their relationships.  Fill in methods for this,
+# below.
+
+[main]
+[randomly]
+task ExecutePlotPoint ?event.
+# Generate text to describe the specified plot point. Fill in methods
+# for this, below.
+
+###
+### Place your code below
+###
+
