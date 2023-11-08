@@ -97,4 +97,9 @@ InitializeFluents:
     [now [DatingHelper hailey george]]
     [now [DatingHelper george amanda]]
 
+# jayden bobby
+# StarCrossedLovers jayden bobby
+    [now [CrushOn jayden bobby]]
+    [now [CrushOn bobby jayden]]
+
 [end]
