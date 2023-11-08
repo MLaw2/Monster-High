@@ -57,7 +57,6 @@ predicate CheatingOn ?cheater ?cheatee.
 # Write a rule here
 CheatingOn ?cheater ?cheatee:
     [Dating ?cheater ?cheatee]
-    [Dating ?cheatee ?cheater]
     [Dating ?cheater ?other]
     [Not [= ?cheatee ?other]]
 [end]
@@ -68,7 +67,6 @@ predicate CheatingOnWith ?cheater ?cheatee ?other.
 # Write a rule here
 CheatingOnWith ?cheater ?cheatee ?other:
     [Dating ?cheater ?cheatee]
-    [Dating ?cheatee ?cheater]
     [Dating ?cheater ?other]
     [Not [= ?cheatee ?other]]
 [end]
