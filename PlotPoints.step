@@ -71,6 +71,44 @@ predicate PlotPoint ?event.
 # the characters and their relationships.  Fill in methods for this,
 # below.
 
+PlotPoint [confess_love ?a ?b]:
+    [CrushOn ?a ?b]
+    [Not [Dating ?a ?b]]
+[end]
+
+# startdating:
+# NOT starcrossedlovers a b
+# a not dating b
+# a knows [b has crush on a]
+# a mutualattraction b
+PlotPoint [start_dating ?a ?b]:
+    [Not [StarCrossedLovers ?a ?aType ?b ?bType]]
+    [Not [Dating ?a ?b]]
+    [Knows ?a [CrushOn ?b ?a]]
+    [MutualAttraction ?a ?b]
+[end]
+PlotPoint [start_dating ?a ?b]:
+    [StarCrossedLovers ?a ?aType ?b ?bType]
+    [Confident ?a]
+    [Not [Dating ?a ?b]]
+    [Knows ?a [CrushOn ?b ?a]]
+    [MutualAttraction ?a ?b]
+[end]
+
+PlotPoint [romantic_rejection ?rejector ?rejected]:
+    [Knows ?rejector [CrushOn ?rejected ?rejector]]
+    [UnrequitedLove ?rejected ?rejector]
+[end]
+
+PlotPoint [fight ?attacker ?defender [triangle ?attacker ?defender
+?loveInterest]]: [LoveTriangle ?attacker ?defender ?loveInterest]
+
+PlotPoint [fight ?cheatee ?cheater [cheating ?cheater ?cheatee ?other]]:
+# wouldn't cheatee need to know that cheater is dating other first?
+# how would this work?? whatever
+# how is ?other works?
+    [CheatingOn]
+
 [main]
 [randomly]
 task ExecutePlotPoint ?event.
