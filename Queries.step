@@ -73,10 +73,10 @@ CheatingOnWith ?cheater ?cheatee ?other:
 
 [main]
 predicate StarCrossedLovers ?charA ?charAType ?charB ?charBType.
-# charA and charB are two different characters of monster type charAType and charBType 
+# charA and charB are two different characters of monster type charAType and charBType
 # respectively, where charAType and charBType are rival monster types, charA and charB share
 # a mutual attraction, and charA and charB are not dating.
-# Write a rule here.  
+# Write a rule here.
 StarCrossedLovers ?charA ?charAType ?charB ?charBType:
     [IsA ?charA ?charAType]
     [IsA ?charB ?charBType]
