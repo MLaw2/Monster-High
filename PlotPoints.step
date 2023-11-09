@@ -100,14 +100,28 @@ PlotPoint [romantic_rejection ?rejector ?rejected]:
     [UnrequitedLove ?rejected ?rejector]
 [end]
 
-PlotPoint [fight ?attacker ?defender [triangle ?attacker ?defender
-?loveInterest]]: [LoveTriangle ?attacker ?defender ?loveInterest]
+PlotPoint [fight ?attacker ?defender [triangle ?attacker ?defender ?loveInterest]]: [LoveTriangle ?attacker ?defender ?loveInterest]
 
-PlotPoint [fight ?cheatee ?cheater [cheating ?cheater ?cheatee ?other]]:
-# wouldn't cheatee need to know that cheater is dating other first?
-# how would this work?? whatever
-# how is ?other works?
-    [CheatingOn]
+PlotPoint [fight ?cheatee ?cheater [cheating ?cheater ?cheatee ?other]]: [CheatingOnWith ?cheater ?cheatee ?other]
+
+PlotPoint [fight ?cheatee ?other [cheating ?cheater ?cheatee ?other]]: [CheatingOnWith ?cheater ?cheatee ?other]
+
+PlotPoint [breakup ?char1 ?char2]:
+    [Dating ?char1 ?char2]
+    [fight ?char1 ?char]
+[end]
+
+PlotPoint [smoldering_look ?a ?b ?club]:
+    [MutualAttraction ?a ?b]
+    [SameClub ?a ?b]
+[end]
+
+PlotPoint [star_crossed_lovers ?a ?aType ?b ?bType]: [StarCrossedLovers ?a ?aType ?b ?bType]
+
+PlotPoint [support_from_friend ?supporter ?supportee [star_crossed_lovers ?supportee ?supporteeType ?crush ?crushType]]:
+    [StarCrossedLovers ?supportee ?supporteeType ?crush ?crushType]
+    [Friend ?supporter ?supportee]
+[end]
 
 [main]
 [randomly]
