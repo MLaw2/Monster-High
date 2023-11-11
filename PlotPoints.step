@@ -2,6 +2,9 @@
 HotKey m "Show plot point menu" [ShowPlotPointMenu].
 HotKey e "Show six random events" [Events].
 
+# hotkey so I don't have to put Startup in every time
+HotKey s "Initialize fluents and state retention" [Startup].
+
 # Entry point for execute 6 random events
 [main]
 Events: [InitializeFluents] [Event] [Event] [Event] [Event] [Event] [Event]
@@ -76,11 +79,6 @@ PlotPoint [confess_love ?a ?b]:
     [Not [Dating ?a ?b]]
 [end]
 
-# startdating:
-# NOT starcrossedlovers a b
-# a not dating b
-# a knows [b has crush on a]
-# a mutualattraction b
 PlotPoint [start_dating ?a ?b]:
     [Not [StarCrossedLovers ?a ?aType ?b ?bType]]
     [Not [Dating ?a ?b]]
@@ -108,12 +106,14 @@ PlotPoint [fight ?cheatee ?other [cheating ?cheater ?cheatee ?other]]: [Cheating
 
 PlotPoint [breakup ?char1 ?char2]:
     [Dating ?char1 ?char2]
-    [fight ?char1 ?char]
+    [HadFightWith ?char1 ?char]
 [end]
 
 PlotPoint [smoldering_look ?a ?b ?club]:
     [MutualAttraction ?a ?b]
     [SameClub ?a ?b]
+    [InClub ?a ?club]
+    [InClub ?b ?club]
 [end]
 
 PlotPoint [star_crossed_lovers ?a ?aType ?b ?bType]: [StarCrossedLovers ?a ?aType ?b ?bType]
@@ -132,4 +132,58 @@ task ExecutePlotPoint ?event.
 ###
 ### Place your code below
 ###
+ExecutePlotPoint [confess_love ?confessor ?confessee]:
+    ?confesee now knows that ?confessor has a crush on ?confessee.
+    [now [Knows ?confesee [CrushOn ?confessor ?confesee]]]
+[end]
 
+ExecutePlotPoint [start_dating ?a ?b]:
+    ?a and ?b are now dating. ?a forgets about ?b's crush on ?a.
+    [now [DatingHelper ?a ?b]]
+    [now [Not [Knows ?a [CrushOn ?b ?a]]]]
+[end]
+
+ExecutePlotPoint [romantic_rejection ?rejector ?rejected]:
+    ?rejector forgets about ?rejected's crush. ?rejected no longer crushes on ?rejector. ?rejected consideres ?rejector to be an enemy.
+    [now [Not [Knows ?rejector [CrushOn ?rejected ?rejector]]]]
+    [now [Not [CrushOn ?rejected ?rejector]]]
+    [now [Enemy ?rejected ?rejector]]
+[end]
+
+ExecutePlotPoint [fight ?attacker ?defender [triangle ?attacker ?defender ?loveInterest]]:
+    ?attacker fights ?defender over their contested love, ?loveInterest.
+    [now [HadFightWithHelper ?attacker ?defender]]
+[end]
+
+ExecutePlotPoint [fight ?cheatee ?other [cheating ?cheater ?cheatee ?other]]:
+    ?cheatee fights ?other over being in love with ?cheater.
+    [now [HadFightWithHelper ?cheatee ?other]]
+[end]
+
+ExecutePlotPoint [fight ?cheatee ?cheater [cheating ?cheater ?cheatee ?other]]:
+    ?cheatee fights ?cheater over cheating on them with ?other.
+    [now [HadFightWithHelper ?cheatee ?cheater]]
+[end]
+
+ExecutePlotPoint [breakup ?char1 ?char2]:
+    ?char1 and ?char2 breakup.
+    [now [Not [DatingHelper ?char1 ?char2]]]
+    [now [Not [DatingHelper ?char2 ?char1]]]
+    [now [Not [HadFightWithHelper ?char1 char2]]]
+    [now [Not [HadFightWithHelper ?char2 char1]]]
+    [now [Not [CrushOn ?char1 ?char2]]]
+    [now [Not [CrushOn ?char2 ?char1]]]
+[end]
+
+ExecutePlotPoint [smoldering_look ?a ?b ?club]:
+    ?a and ?b exchange a smouldering look while at ?club.
+[end]
+
+ExecutePlotPoint [star_crossed_lovers ?a ?aType ?b ?bType]:
+    Even though ?aType and ?bType don't mix, ?a and ?b have become star crossed lovers.
+[end]
+
+ExecutePlotPoint [support_from_friend ?supporter ?supportee [star_crossed_lovers ?supportee ?supporteeType ?crush ?crushType]]:
+    ?supporter cheers on ?supportee to go forth without fear!
+    [now [Confident ?supportee]]
+[end]

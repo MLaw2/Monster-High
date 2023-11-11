@@ -70,6 +70,7 @@ InitializeFluents:
 # Love Triangle cameron tiana jayden
     [now [CrushOn tiana jayden]]
     [now [CrushOn jayden tiana]]
+# smoldering look AS WELL
 
     [now [CrushOn hailey jada]]
     [now [CrushOn hailey cameron]]
@@ -77,12 +78,15 @@ InitializeFluents:
 
 # UnrequtiedLove
     [now [CrushOn jayden david]]
+# rejection
+    [now [Knows david [CrushOn jayden david]]]
 
 # Love Triangle hailey aniyah jada
     [now [CrushOn aniyah jada]]
     [now [DatingHelper aniyah jada]]
 
     [now [FriendHelper aniyah jayden]]
+# friend supporter too for tiana
 
 # SELF CREATED
 #UnrequitedLove
@@ -91,6 +95,8 @@ InitializeFluents:
 #LovelessRelationship
     [now [DatingHelper amanda jacob]]
     [now [DatingHelper jacob amanda]]
+# breakup
+    [now [HadFightWithHelper jacob amanda]]
 
 # Cheating
     [now [DatingHelper george hailey]]
@@ -101,5 +107,10 @@ InitializeFluents:
 # StarCrossedLovers jayden bobby
     [now [CrushOn jayden bobby]]
     [now [CrushOn bobby jayden]]
+
+# startdating
+    [now [CrushOn penny tanner]]
+    [now [CrushOn tanner penny]]
+    [now [Knows penny [CrushOn tanner penny]]]
 
 [end]
