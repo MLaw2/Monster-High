@@ -23,13 +23,19 @@ MutualAttraction ?a ?b:
 predicate Student ?who.
 # True if ?who is a student.
 # Write a rule to define Student in terms of IsA
-Student ?who: [IsA ?who ?_a]
+Student ?who:
+    [IsA ?who ?_a]
+[end]
 
 [main]
 predicate SameClub ?a ?b.
 # A and B are in the same club.
 # Write a rule for SameClub here
-SameClub ?a ?b: [InClub ?a ?club] [InClub ?b ?club] [Not [= ?a ?b]]
+SameClub ?a ?b:
+    [InClub ?a ?club]
+    [InClub ?b ?club]
+    [Not [= ?a ?b]]
+[end]
 
 [main]
 predicate LoveTriangle ?a ?b ?c.

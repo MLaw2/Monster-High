@@ -80,17 +80,18 @@ PlotPoint [confess_love ?a ?b]:
 [end]
 
 PlotPoint [start_dating ?a ?b]:
+    [Knows ?a [CrushOn ?b ?a]]
+    [MutualAttraction ?a ?b]
+    [Not [Dating ?a ?b]]
     [Not [StarCrossedLovers ?a ?aType ?b ?bType]]
-    [Not [Dating ?a ?b]]
-    [Knows ?a [CrushOn ?b ?a]]
-    [MutualAttraction ?a ?b]
 [end]
-PlotPoint [start_dating ?a ?b]:
-    [StarCrossedLovers ?a ?aType ?b ?bType]
-    [Confident ?a]
-    [Not [Dating ?a ?b]]
-    [Knows ?a [CrushOn ?b ?a]]
-    [MutualAttraction ?a ?b]
+
+PlotPoint [start_dating ?char1 ?char2]:
+    [Knows ?char1 [CrushOn ?char2 ?char1]]
+    [MutualAttraction ?char1 ?char2]
+    [Not [Dating ?char1 ?char2]]
+    [StarCrossedLovers ?char1 ?char1Type ?char2 ?char2Type]
+    [Confident ?char1]
 [end]
 
 PlotPoint [romantic_rejection ?rejector ?rejected]:
@@ -98,11 +99,17 @@ PlotPoint [romantic_rejection ?rejector ?rejected]:
     [UnrequitedLove ?rejected ?rejector]
 [end]
 
-PlotPoint [fight ?attacker ?defender [triangle ?attacker ?defender ?loveInterest]]: [LoveTriangle ?attacker ?defender ?loveInterest]
+PlotPoint [fight ?attacker ?defender [triangle ?attacker ?defender ?loveInterest]]:
+    [LoveTriangle ?attacker ?defender ?loveInterest]
+[end]
 
-PlotPoint [fight ?cheatee ?cheater [cheating ?cheater ?cheatee ?other]]: [CheatingOnWith ?cheater ?cheatee ?other]
+PlotPoint [fight ?cheatee ?cheater [cheating ?cheater ?cheatee ?other]]:
+    [CheatingOnWith ?cheater ?cheatee ?other]
+[end]
 
-PlotPoint [fight ?cheatee ?other [cheating ?cheater ?cheatee ?other]]: [CheatingOnWith ?cheater ?cheatee ?other]
+PlotPoint [fight ?cheatee ?other [cheating ?cheater ?cheatee ?other]]:
+    [CheatingOnWith ?cheater ?cheatee ?other]
+[end]
 
 PlotPoint [breakup ?char1 ?char2]:
     [Dating ?char1 ?char2]
@@ -116,11 +123,31 @@ PlotPoint [smoldering_look ?a ?b ?club]:
     [InClub ?b ?club]
 [end]
 
-PlotPoint [star_crossed_lovers ?a ?aType ?b ?bType]: [StarCrossedLovers ?a ?aType ?b ?bType]
+PlotPoint [star_crossed_lovers ?a ?aType ?b ?bType]:
+    [StarCrossedLovers ?a ?aType ?b ?bType]
+[end]
 
 PlotPoint [support_from_friend ?supporter ?supportee [star_crossed_lovers ?supportee ?supporteeType ?crush ?crushType]]:
     [StarCrossedLovers ?supportee ?supporteeType ?crush ?crushType]
     [Friend ?supporter ?supportee]
+[end]
+
+# PlotPoint mutual friends
+# two people become friends after having a common enemy
+PlotPoint [mutual_friends ?charA ?charB ?mutualEnemy]:
+    [Not [= ?charA ?charB]]
+    [Enemy ?charA ?mutualEnemy]
+    [Enemy ?charB ?mutualEnemy]
+    [Not [Enemy ?charA ?charB]]
+    [Not [Enemy ?charB ?charA]]
+[end]
+
+# PlotPoint random_encounter
+# if two people do not have crushes on each other, they can encounter one another
+PlotPoint [random_encounter ?charA ?charB]:
+    [Not [Dating ?charA ?charB]]
+    [Not [CrushOn ?charA ?charB]]
+    [Not [CrushOn ?charB ?charA]]
 [end]
 
 [main]
@@ -186,4 +213,20 @@ ExecutePlotPoint [star_crossed_lovers ?a ?aType ?b ?bType]:
 ExecutePlotPoint [support_from_friend ?supporter ?supportee [star_crossed_lovers ?supportee ?supporteeType ?crush ?crushType]]:
     ?supporter cheers on ?supportee to go forth without fear!
     [now [Confident ?supportee]]
+[end]
+
+ExecutePlotPoint [mutual_friends ?charA ?charB ?mutualEnemy]:
+    ?charA and ?charB team up and become friends from their collective distaste for ?mutualEnemy.
+    [now [FriendHelper ?charA ?charB]]
+[end]
+
+ExecutePlotPoint [random_encounter ?charA ?charB]:
+    One day, ?charA and ?charB run into each other and develop a liking for one another.
+    [now [CrushOn ?charA ?charB]]
+    [now [CrushOn ?charB ?charA]]
+[end]
+
+ExecutePlotPoint [random_encounter ?charA ?charB]:
+    One day, ?charA and ?charB run into each other. ?charB takes a liking to ?charA/Possessive
+    [now [CrushOn ?charB ?charA]]
 [end]
